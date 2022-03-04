@@ -184,8 +184,8 @@ columns = ['Customer_ID', 'First name', 'Last name', 'date of birth',        # �
 #with open("D:\\new\\customers_data.csv", "w") as file:           # создание csv файла с заданными колонками
     #writer = csv.writer(file, lineterminator='\r')
     #writer.writerow(columns)
-writer = pd.DataFrame(columns=columns)
-writer.to_csv("D:\\new\\customers_data.csv",mode='w',header=False)            # заполнение таблицы данными
+writer = pd.DataFrame([columns], columns=columns)
+writer.to_csv("D:\\new\\customers_data.csv",mode='w', index=False, header=False)            # заполнение таблицы данными
 for i in range(data_size):
     ID = gen_id(i + 1)
     gender = np.random.choice(['male', 'female'])
