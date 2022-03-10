@@ -50,7 +50,7 @@ def gen_date_of_birth():
     age_distribution = np.concatenate([first_part, second_part, third_part])
     age_distribution = age_distribution[(age_distribution < 100) & (age_distribution >= 19)]
     year = 2022 - int(np.random.choice(age_distribution))
-    return day + '.' + month + '.' + str(year)
+    return day + '-' + month + '-' + str(year)
 def gen_date_of_start(date_of_birth):
     day=int(date_of_birth[0:2])
     month=int(date_of_birth[3:5])
@@ -71,7 +71,7 @@ def gen_date_of_start(date_of_birth):
     month = str(month)
     if len(month) == 1:
         month = '0' + month
-    return day + '.' + month + '.' + str(year)
+    return day + '-' + month + '-' + str(year)
 
 def gen_date_of_term(date_of_start):
     day=int(date_of_start[0:2])
@@ -100,7 +100,7 @@ def gen_date_of_term(date_of_start):
     month = str(month)
     if len(month) == 1:
         month = '0' + month
-    return day + '.' + month + '.' + str(year)
+    return day + '-' + month + '-' + str(year)
 
 def gen_promo_agreement(date_of_birth):
     age = 2022 - int(date_of_birth[-4:])
