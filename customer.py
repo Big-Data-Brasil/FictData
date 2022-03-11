@@ -51,20 +51,30 @@ def gen_date_of_birth():
     age_distribution = age_distribution[(age_distribution < 100) & (age_distribution >= 19)]
     year = 2022 - int(np.random.choice(age_distribution))
     return day + '-' + month + '-' + str(year)
+
 def gen_date_of_start(date_of_birth):
-    day=int(date_of_birth[0:2])
-    month=int(date_of_birth[3:5])
     year=int(date_of_birth[6:10])
     if year<=1977:
-        year = np.random.randint(1995, 2022)
+        year = np.random.randint(1995, 2023)
     else:
-        year = np.random.randint(year+18, 2022)
-    if month == 2:
-        day = np.random.randint(1, 29)
-    elif month in [4, 6, 9, 11]:
-        day = np.random.randint(1, 31)
+        year = np.random.randint(year+18, 2023)
+    if year<2022:
+        month=np.random.randint(1, 13)
+        if month == 2:
+            if year%4==0:
+                day = np.random.randint(1, 30)
+            else:
+                day = np.random.randint(1, 29)
+        elif month in [4, 6, 9, 11]:
+            day = np.random.randint(1, 31)
+        else:
+            day = np.random.randint(1, 32)
     else:
-        day = np.random.randint(1, 32)
+        month=np.random.randint(1, 3)
+        if month == 2:
+            day = np.random.randint(1, 29)
+        else:
+            day = np.random.randint(1, 32)
     day = str(day)
     if len(day) == 1:
         day = '0' + day
@@ -74,26 +84,16 @@ def gen_date_of_start(date_of_birth):
     return day + '-' + month + '-' + str(year)
 
 def gen_date_of_term(date_of_start):
-    day=int(date_of_start[0:2])
-    month=int(date_of_start[3:5])
+    month=np.random.randint(1, 13)
     year=int(date_of_start[6:10])
-    year = np.random.randint(year, 2060)
-    if year<2022:
-        month=np.random.randint(1, 13)
-        if month == 2:
-            day = np.random.randint(1, 29)
-        elif month in [4, 6, 9, 11]:
-            day = np.random.randint(1, 31)
-        else:
-            day = np.random.randint(1, 32)
-    if year>=2022:
-        month=np.random.randint(1, 4)
-        if month == 2:
-            day = np.random.randint(1, 29)
-        elif month == 3:
-            day = np.random.randint(1, 5)
-        else:
-            day = np.random.randint(1, 32)
+    year = np.random.randint(year+1, 2060)
+    month=np.random.randint(1, 13)
+    if month == 2:
+        day = np.random.randint(1, 29)
+    elif month in [4, 6, 9, 11]:
+        day = np.random.randint(1, 31)
+    else:
+        day = np.random.randint(1, 32)
     day = str(day)
     if len(day) == 1:
         day = '0' + day
@@ -118,8 +118,12 @@ def gen_promo_agreement(date_of_birth):
 def gen_card():
     card=np.random.randint(0,9, size=16)
     card_str=""
-    for i in range(16):
-        card_str+=str(card[i])
+    chance=np.random.randint(0,10)
+    if chance<8:
+        for i in range(16):
+            card_str+=str(card[i])
+    else:
+        card_str="----------"
     return card_str
 
 def gen_phone():
@@ -131,15 +135,13 @@ def gen_phone():
     return phone_str
 
 def gen_status(date_of_term):
-    day=int(date_of_term[0:2])
     month=int(date_of_term[3:5])
     year=int(date_of_term[6:10])
-    if year>2022:
-        return "active"
-    elif day>2 and month>7 and year==2022:
+    if year>2022 or (month>2 and year==2022):
         return "active"
     else:
         return "inactive"
+    
 def gen_category():
     gen=np.random.randint(1,10)
     if gen < 8:
