@@ -23,9 +23,6 @@ for i in np.arange(inst_number):
             cost = product['cost'][j]
             event_type = product['recurrent'][j]
             break
-        else:
-            cost = 0
-            event_type = ''
     if event_type == 'charged just once':
         writer = pd.DataFrame([[cnt, inst_id, '1', instance['active-day'][i], cost, event_type]])
         writer.to_csv('charge.csv',  mode='a', index=False, header=False)
