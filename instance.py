@@ -36,26 +36,55 @@ def gen_date_of_start(since, term):
     else:
         year = np.random.randint(year_since, 2023)
     if year==year_term:
-        month=np.random.randint(1, month_term+1)
-        if month==month_term:
-            day=np.random.randint(1, day_term+1)
-        elif month in [4, 6, 9, 11]:
-            day=np.random.randint(1, 31)
-        elif month == 2:
-            day=np.random.randint(1, 29)
-        else:
-            day=np.random.randint(1, 32)
-    else:
-        month=np.random.randint(1, 13)
-        if month == 2:
-            if year%4!=0:
-                day = np.random.randint(1, 29)
+        if year==year_since:
+            month=np.random.randint(month_since, month_term+1)
+            if month==month_term:
+                if month==month_since:
+                    day=np.random.randint(day_since, day_term+1)
+                else:
+                    day=np.random.randint(1, day_term+1)
+            elif month in [4, 6, 9, 11]:
+                day=np.random.randint(1, 31)
+            elif month == 2:
+                day=np.random.randint(1, 29)
             else:
-                day = np.random.randint(1, 30)
-        elif month in [4, 6, 9, 11]:
-            day = np.random.randint(1, 31)
+                day=np.random.randint(1, 32)
         else:
-            day = np.random.randint(1, 32)
+            month=np.random.randint(1, month_term+1)
+            if month==month_term:
+                day=np.random.randint(1, day_term+1)
+            elif month in [4, 6, 9, 11]:
+                day=np.random.randint(1, 31)
+            elif month == 2:
+                day=np.random.randint(1, 29)
+            else:
+                day=np.random.randint(1, 32)
+    else:
+        if year==year_since:
+            month=np.random.randint(month_since, 13)
+            if month==month_since:
+                if month == 2:
+                    if year%4!=0:
+                        day = np.random.randint(day_since, 29)
+                    else:
+                        day = np.random.randint(day_since, 30)
+                elif month in [4, 6, 9, 11]:
+                    day = np.random.randint(day_since, 31)
+                else:
+                    day = np.random.randint(day_since, 32)
+            else:
+                day=np.random.randint(1, 29)
+        else:
+            month=np.random.randint(1, month_term+1)
+            if month == 2:
+                if year%4!=0:
+                    day = np.random.randint(1, 29)
+                else:
+                    day = np.random.randint(1, 30)
+            elif month in [4, 6, 9, 11]:
+                day = np.random.randint(1, 31)
+            else:
+                day = np.random.randint(1, 32)
     day = str(day)
     if len(day) == 1:
         day = '0' + day
@@ -85,26 +114,68 @@ def gen_date_of_term(since, term):
     else:
         year = np.random.randint(year_since, year_term+1)
     if year==year_term:
-        month=np.random.randint(1, month_term+1)
-        if month==month_term:
-            day=np.random.randint(1, day_term+1)
-        elif month in [4, 6, 9, 11]:
-            day=np.random.randint(1, 31)
-        elif month == 2:
-            day=np.random.randint(1, 29)
-        else:
-            day=np.random.randint(1, 32)
-    else:
-        month=np.random.randint(1, 13)
-        if month == 2:
-            if year%4!=0:
-                day = np.random.randint(1, 29)
+        if year==year_since:
+            month=np.random.randint(month_since, month_term+1)
+            if month==month_term:
+                if month==month_since:
+                    day=np.random.randint(day_since, day_term+1)
+                else:
+                    day=np.random.randint(1, day_term+1)
+            elif month==month_since:
+                if month in [4, 6, 9, 11]:
+                    day=np.random.randint(day_since, 31)
+                elif month == 2:
+                    day=np.random.randint(day_since, 29)
+                else:
+                    day=np.random.randint(day_since, 32)
+            elif month in [4, 6, 9, 11]:
+                day=np.random.randint(1, 31)
+            elif month == 2:
+                day=np.random.randint(1, 29)
             else:
-                day = np.random.randint(1, 30)
-        elif month in [4, 6, 9, 11]:
-            day = np.random.randint(1, 31)
+                day=np.random.randint(1, 32)
         else:
-            day = np.random.randint(1, 32)
+            month=np.random.randint(1, month_term+1)
+            if month==month_term:
+                day=np.random.randint(1, day_term+1)
+            elif month in [4, 6, 9, 11]:
+                day=np.random.randint(1, 31)
+            elif month == 2:
+                day=np.random.randint(1, 29)
+            else:
+                day=np.random.randint(1, 32)
+    else:
+        if year==year_since:
+            month=np.random.randint(month_since, 13)
+            if month==month_since:
+                if month == 2:
+                    if year%4!=0:
+                        day = np.random.randint(day_since, 29)
+                    else:
+                        day = np.random.randint(day_since, 30)
+                elif month in [4, 6, 9, 11]:
+                    day = np.random.randint(day_since, 31)
+                else:
+                    day = np.random.randint(day_since, 32)
+            else:
+                day=np.random.randint(1, 29)
+        else:
+            month=np.random.randint(1, 13)
+            if month in [4, 6, 9, 11]:
+                day=np.random.randint(1, 31)
+            elif month == 2:
+                day=np.random.randint(1, 29)
+            else:
+                day=np.random.randint(1, 32)
+            if month == 2:
+                if year%4!=0:
+                    day = np.random.randint(1, 29)
+                else:
+                    day = np.random.randint(1, 30)
+            elif month in [4, 6, 9, 11]:
+                day = np.random.randint(1, 31)
+            else:
+                day = np.random.randint(1, 32)
     day = str(day)
     if len(day) == 1:
         day = '0' + day
