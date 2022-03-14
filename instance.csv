@@ -1,5 +1,5 @@
 id,id-customer,id-product,active-day,termination-day,status,distribution
-0001,0290,05,18-11-2018,07-04-2018,inactive,phyzical
+0001,0290,05,18-11-2018,07-04-2019,inactive,phyzical
 0002,0290,07,23-03-2018,23-03-2018,inactive,phyzical
 0003,0290,19,31-03-2018,13-01-2019,inactive,phyzical
 0004,0688,03,18-06-2016,16-02-2019,inactive,web
