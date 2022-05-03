@@ -36,16 +36,16 @@ def gen_phone():
 
 customer = pd.read_csv('customers_data.csv')
 
-columns = ["event_id", "product_id", "date", "total_volume", "event_type", "direction", "roaming", "calling_msisdn", "called_msisdn"]
+columns = ["event_id", "product_id", "date", "event_type", "call_count", "sms_count", "data_count", "direction", "roaming", "calling_msisdn", "called_msisdn"]
 ids = [i for i in range(1, data_size + 1)]
 
-with open("costed_event.csv", "w") as file:
+with open(r"costed_event.csv", "w") as file:
     writer = csv.writer(file, lineterminator='\r')
     writer.writerow(columns)
 
 ID = 0
 for i in range(data_size):
-    with open('costed_event.csv', 'a') as file:
+    with open(r'costed_event.csv', 'a') as file:
         writer = csv.writer(file, lineterminator='\r')
 
         number = np.random.randint(0, data_size - i)
@@ -60,11 +60,17 @@ for i in range(data_size):
 
             event_type = np.random.choice(['call', 'sms', 'data'])
             if event_type == 'call':
-                total_volume = np.random.randint(1, 50)
+                call_count = np.random.randint(1, 50)
+                sms_count = 0
+                data_count = 0
             if event_type == 'sms':
-                total_volume = 1
+                call_count = 0
+                sms_count = 1
+                data_count = 0
             if event_type == 'data':
-                total_volume = np.random.randint(1, 200)
+                call_count = 0
+                sms_count = 0
+                data_count = np.random.randint(1, 200)
 
             roaming = gen_roaming()
 
@@ -87,4 +93,4 @@ for i in range(data_size):
 
             if (customer_id != customer2_id):
                 writer.writerow(
-                    [ID, id_product, date, total_volume, event_type, direction, roaming, customer_id, customer2_id])
+                    [ID, id_product, date, event_type, call_count, sms_count, data_count, direction, roaming, customer_id, customer2_id])

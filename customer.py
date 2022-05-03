@@ -1,15 +1,8 @@
 import numpy as np
 import pandas as pd
-import csv
+import datetime as dt
 
 data_size = 10000                      # задание объема данных
-
-
-def gen_id(num):
-    num = str(num)
-    while len(num) < len(str(data_size)):
-        num = '0' + num
-    return num
 
 
 def gen_first_name(gender):
@@ -38,22 +31,16 @@ def gen_date_of_birth():
         day = np.random.randint(1, 31)
     else:
         day = np.random.randint(1, 32)
-    day = str(day)
-    if len(day) == 1:
-        day = '0' + day
-    month = str(month)
-    if len(month) == 1:
-        month = '0' + month
     first_part = np.random.normal(loc=20, scale=5, size=100)
     second_part = np.random.normal(loc=36, scale=20, size=1000)
     third_part = np.random.normal(loc=55, scale=20, size=300)
     age_distribution = np.concatenate([first_part, second_part, third_part])
     age_distribution = age_distribution[(age_distribution < 100) & (age_distribution >= 19)]
     year = 2022 - int(np.random.choice(age_distribution))
-    return day + '-' + month + '-' + str(year)
+    return dt.date(year=year, month=month, day=day)
 
 def gen_date_of_start(date_of_birth):
-    year=int(date_of_birth[6:10])
+    year=date_of_birth.year
     if year<=1977:
         year = np.random.randint(1995, 2023)
     else:
@@ -75,17 +62,10 @@ def gen_date_of_start(date_of_birth):
             day = np.random.randint(1, 29)
         else:
             day = np.random.randint(1, 32)
-    day = str(day)
-    if len(day) == 1:
-        day = '0' + day
-    month = str(month)
-    if len(month) == 1:
-        month = '0' + month
-    return day + '-' + month + '-' + str(year)
+    return dt.date(year=year, month=month, day=day)
 
 def gen_date_of_term(date_of_start):
-    month=np.random.randint(1, 13)
-    year=int(date_of_start[6:10])
+    year=date_of_start.year
     year = np.random.randint(year+1, 2060)
     month=np.random.randint(1, 13)
     if month == 2:
@@ -94,16 +74,10 @@ def gen_date_of_term(date_of_start):
         day = np.random.randint(1, 31)
     else:
         day = np.random.randint(1, 32)
-    day = str(day)
-    if len(day) == 1:
-        day = '0' + day
-    month = str(month)
-    if len(month) == 1:
-        month = '0' + month
-    return day + '-' + month + '-' + str(year)
+    return dt.date(year=year, month=month, day=day)
 
 def gen_promo_agreement(date_of_birth):
-    age = 2022 - int(date_of_birth[-4:])
+    age = 2022 - date_of_birth.year
     if age < 25:
         return np.random.choice(['Yes', 'No'], p=[0.6, 0.4])
     elif age < 30:
@@ -116,12 +90,12 @@ def gen_promo_agreement(date_of_birth):
         return 'No'
 
 def gen_card():
-    card=np.random.randint(0,9, size=16)
-    card_str=""
     chance=np.random.randint(0,10)
     if chance<8:
-        for i in range(16):
-            card_str+=str(card[i])
+        card=np.random.randint(0,9, size=16)
+        card_str = ''
+        for x in card:
+            card_str += str(x)
     else:
         card_str="----------"
     return card_str
@@ -135,8 +109,8 @@ def gen_phone():
     return phone_str
 
 def gen_status(date_of_term):
-    month=int(date_of_term[3:5])
-    year=int(date_of_term[6:10])
+    month=date_of_term.month
+    year=date_of_term.year
     if year>2022 or (month>2 and year==2022):
         return "active"
     else:
@@ -164,12 +138,10 @@ def gen_region():
 
 def gen_language():
     gen=np.random.randint(1,10)
-    if gen>3:
+    if gen>2:
         return "portuguese"
-    elif gen>1:
-        return "english"
     else:
-        return "russian"
+        return "english"
 
 def gen_termination(status):
     if status=="inactive":
@@ -177,9 +149,9 @@ def gen_termination(status):
     else:
         return "----------"
 
-columns = ['Customer_ID', 'First name', 'Last name', 'date of birth',        # колонки в таблице
+columns = ['customer_id', 'first_name', 'last_name', 'date_of_birth',        # колонки в таблице
            'gender', 'agree_for_promo', 'autopay_card', 'email', 'MSISDN',
-           'Status', 'customer category', 'customer_since', 'region',
+           'status', 'customer_category', 'customer_since', 'region',
            'language', 'termination_date']
 
 
@@ -187,16 +159,16 @@ columns = ['Customer_ID', 'First name', 'Last name', 'date of birth',        # �
     #writer = csv.writer(file, lineterminator='\r')
     #writer.writerow(columns)
 writer = pd.DataFrame([columns], columns=columns)
-writer.to_csv("D:\\new\\customers_data.csv",mode='w', index=False, header=False)            # заполнение таблицы данными
+writer.to_csv('customer.csv',mode='w', index=False, header=False)            # заполнение таблицы данными
 for i in range(data_size):
-    ID = gen_id(i + 1)
+    ID = i + 1
     gender = np.random.choice(['male', 'female'])
     f_name = gen_first_name(gender)
     l_name = gen_last_name()
     date_of_birth = gen_date_of_birth()
     agree_for_promo = gen_promo_agreement(date_of_birth)
     card = gen_card()
-    email = f_name.lower()[0:4] + '.' + l_name.lower()[0:5] + date_of_birth[-2:] + '@gmail.com'
+    email = f_name.lower()[0:4] + '.' + l_name.lower()[0:5] + str(date_of_birth.year % 100) + '@gmail.com'
     msisdn = gen_phone()
     category = gen_category()
     since = gen_date_of_start(date_of_birth)
@@ -206,4 +178,4 @@ for i in range(data_size):
     status = gen_status(termination_date)
     termination_date = gen_termination(status)
     writer = pd.DataFrame([[ID, f_name, l_name, date_of_birth, gender, agree_for_promo, card, email, msisdn, status, category, since, region, language, termination_date]], columns=columns)
-    writer.to_csv('D:\\new\\customers_data.csv', mode='a', index=False, header=False)
+    writer.to_csv('customer.csv', mode='a', index=False, header=False)
